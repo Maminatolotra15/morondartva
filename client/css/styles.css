@@ -2248,6 +2248,7 @@ body { overflow-x: hidden; width: 100%; }
     .profile-tab-btn { padding: 0.5rem 0.75rem; }
     .nav-actions .btn-secondary.btn-sm span { display: none; }
     .nav-actions .btn-secondary.btn-sm i { margin-right: 0; }
+    .cart-drawer { max-width: 80%; }
 }
 
 @media (max-width: 480px) {
