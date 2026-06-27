@@ -2290,12 +2290,14 @@ body { overflow-x: hidden; width: 100%; }
     .modal-overlay { padding: 0; align-items: flex-start; }
     .modal-overlay .modal-content { margin-top: 0; }
     input.form-control, textarea.form-control, select.form-control { font-size: 16px !important; }
+    .cart-drawer { max-width: 85%; }
 }
 
 @media (max-width: 420px) {
     .header-container .logo-container .logo-text { display: none; }
     .container { padding: 0 0.5rem; }
     .nav-actions .badge { display: none; }
+    .cart-drawer { max-width: 90%; }
 }
 
 @media (max-width: 360px) {
@@ -2307,4 +2309,5 @@ body { overflow-x: hidden; width: 100%; }
     .hero-title { font-size: 1.15rem; }
     .support-menu { width: 180px; }
     .support-item { padding: 0.4rem 0.6rem; font-size: 0.75rem; }
+    .cart-drawer { max-width: 95%; }
 }
