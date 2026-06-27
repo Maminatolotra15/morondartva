@@ -116,7 +116,7 @@ const Auth = {
     async upgradeToPremium() {
         const premiumAmount = 30000;
         const paymentModalHTML = `
-            <div class="container" style="max-width: 400px;">
+            <div style="max-width: 400px; margin: 0 auto;">
                 <div class="text-center mb-4">
                     <i class="fas fa-crown fa-3x text-gold mb-2"></i>
                     <h4>Devenir Premium</h4>

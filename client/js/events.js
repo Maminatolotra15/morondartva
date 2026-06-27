@@ -75,7 +75,7 @@ const Events = {
 
         let eventsHtml = `
             <h3 class="mb-4"><i class="fas fa-calendar-day text-red mr-2"></i>Événements à Venir</h3>
-            <div class="grid grid-2 gap-4">
+            <div class="grid grid-2 gap-3">
                 ${this.events.map(ev => {
                     const hasVip = ev.vip_price && ev.vip_price > 0 && ev.vip_tickets > 0;
                     return `
@@ -222,7 +222,7 @@ const Events = {
 
     showTicketPaymentModal(eventId, qty, vipQty, totalPrice, ev) {
         const paymentHTML = `
-            <div class="container" style="max-width:400px;">
+            <div style="max-width:400px;margin:0 auto;">
                 <div class="text-center mb-4">
                     <i class="fas fa-ticket-alt fa-3x text-red mb-2"></i>
                     <h4>Paiement des Tickets</h4>
