@@ -204,17 +204,32 @@ const Auth = {
         const guestMenu = document.getElementById('nav-guest-menu');
         const userMenu = document.getElementById('nav-user-menu');
         const userFullnameSpan = document.getElementById('nav-user-fullname');
-            const adminLink = document.getElementById('nav-admin-link');
-            const scannerLink = document.getElementById('nav-scanner-link');
-            const mobileScannerLink = document.getElementById('mobile-nav-scanner');
-            const subBadge = document.getElementById('nav-user-sub-badge');
+        const adminLink = document.getElementById('nav-admin-link');
+        const scannerLink = document.getElementById('nav-scanner-link');
+        const mobileScannerLink = document.getElementById('mobile-nav-scanner');
+        const subBadge = document.getElementById('nav-user-sub-badge');
 
-            if (this.user) {
-                if (guestMenu) guestMenu.classList.add('hidden');
-                if (userMenu) userMenu.classList.remove('hidden');
-                if (userFullnameSpan) userFullnameSpan.textContent = this.user.fullname;
+        const isScanner = this.user && this.user.role === 'scanner';
 
-                // Premium/Admin styling badges
+        document.body.classList.toggle('scanner-mode', isScanner);
+
+        if (this.user) {
+            if (guestMenu) guestMenu.classList.add('hidden');
+            if (userMenu) userMenu.classList.remove('hidden');
+            if (userFullnameSpan) userFullnameSpan.textContent = this.user.fullname;
+
+            if (isScanner) {
+                if (subBadge) {
+                    subBadge.textContent = 'Scanner';
+                    subBadge.className = 'badge badge-scanner';
+                }
+                if (scannerLink) scannerLink.classList.remove('hidden');
+                if (adminLink) adminLink.classList.add('hidden');
+                if (mobileScannerLink) mobileScannerLink.classList.remove('hidden');
+                if (window.location.hash !== '#scanner') {
+                    window.location.hash = '#scanner';
+                }
+            } else {
                 if (subBadge) {
                     if (this.user.role === 'admin') {
                         subBadge.textContent = 'Admin';
@@ -227,37 +242,25 @@ const Auth = {
                         subBadge.className = 'badge badge-free';
                     }
                 }
-
-                // Show admin panel and scanner links
                 if (adminLink) {
-                    if (this.user.role === 'admin') {
-                        adminLink.classList.remove('hidden');
-                    } else {
-                        adminLink.classList.add('hidden');
-                    }
+                    adminLink.classList.toggle('hidden', this.user.role !== 'admin');
                 }
                 if (scannerLink) {
-                    if (this.user.role === 'admin' || this.user.role === 'scanner') {
-                        scannerLink.classList.remove('hidden');
-                    } else {
-                        scannerLink.classList.add('hidden');
-                    }
+                    scannerLink.classList.toggle('hidden', this.user.role !== 'admin');
                 }
                 if (mobileScannerLink) {
-                    if (this.user.role === 'admin' || this.user.role === 'scanner') {
-                        mobileScannerLink.classList.remove('hidden');
-                    } else {
-                        mobileScannerLink.classList.add('hidden');
-                    }
+                    mobileScannerLink.classList.toggle('hidden', this.user.role !== 'admin');
                 }
-            } else {
-                if (guestMenu) guestMenu.classList.remove('hidden');
-                if (userMenu) userMenu.classList.add('hidden');
-                if (adminLink) adminLink.classList.add('hidden');
-                if (scannerLink) scannerLink.classList.add('hidden');
-                if (mobileScannerLink) mobileScannerLink.classList.add('hidden');
             }
-        },
+        } else {
+            document.body.classList.remove('scanner-mode');
+            if (guestMenu) guestMenu.classList.remove('hidden');
+            if (userMenu) userMenu.classList.add('hidden');
+            if (adminLink) adminLink.classList.add('hidden');
+            if (scannerLink) scannerLink.classList.add('hidden');
+            if (mobileScannerLink) mobileScannerLink.classList.add('hidden');
+        }
+    },
 
     async updateProfilePage() {
         const profileSection = document.getElementById('section-profile');

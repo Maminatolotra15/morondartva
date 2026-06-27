@@ -781,6 +781,11 @@ header {
     color: #ffffff;
 }
 
+.badge-scanner {
+    background-color: var(--info);
+    color: #ffffff;
+}
+
 .badge-success {
     background-color: rgba(16, 185, 129, 0.2);
     color: var(--success);
@@ -2099,6 +2104,20 @@ footer {
     padding: 1.5rem;
     border-top: 1px solid rgba(255, 255, 255, 0.08);
     text-align: center;
+}
+
+/* --- SCANNER MODE: hide everything but scanner section --- */
+body.scanner-mode main > section:not(#section-scanner) {
+    display: none !important;
+}
+body.scanner-mode main > section#section-scanner {
+    display: block !important;
+}
+body.scanner-mode #mobile-nav-links a:not(#mobile-nav-scanner) {
+    display: none !important;
+}
+body.scanner-mode #mobile-nav-links #mobile-nav-scanner {
+    display: block !important;
 }
 
 /* --- SCANNER --- */

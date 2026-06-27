@@ -12,23 +12,33 @@ const Scanner = {
     start() {
         const video = document.getElementById('scanner-camera');
         if (!video) return;
-        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-            navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
-                .then(stream => {
-                    this.scannerStream = stream;
-                    video.srcObject = stream;
-                    video.play();
-                    Notify.show('Caméra activée. Pointez vers le QR code.', 'info');
-                    document.getElementById('scanner-start-btn').classList.add('hidden');
-                    document.getElementById('scanner-stop-btn').classList.remove('hidden');
-                    this.scanFrame();
-                })
-                .catch(err => {
-                    Notify.show('Erreur d\'accès à la caméra: ' + err.message, 'error');
-                });
-        } else {
-            Notify.show('Votre navigateur ne supporte pas l\'accès à la caméra.', 'warning');
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+            Notify.show('Caméra non supportée. Saisissez le token manuellement ci-dessous.', 'warning');
+            return;
         }
+        navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+            .then(stream => {
+                this.scannerStream = stream;
+                video.srcObject = stream;
+                video.play();
+                Notify.show('Caméra activée. Pointez vers le QR code.', 'info');
+                document.getElementById('scanner-start-btn').classList.add('hidden');
+                document.getElementById('scanner-stop-btn').classList.remove('hidden');
+                this.scanFrame();
+            })
+            .catch(err => {
+                let msg = 'Erreur caméra: ' + err.message;
+                if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
+                    msg = 'Accès caméra refusé. Autorisez la caméra dans les paramètres ou saisissez le token manuellement.';
+                } else if (err.name === 'NotFoundError') {
+                    msg = 'Aucune caméra trouvée sur cet appareil. Saisissez le token manuellement.';
+                } else if (err.name === 'NotReadableError') {
+                    msg = 'Caméra utilisée par une autre application. Saisissez le token manuellement.';
+                } else if (location.protocol !== 'https:' && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1') {
+                    msg = 'La caméra nécessite une connexion HTTPS. Saisissez le token manuellement ci-dessous.';
+                }
+                Notify.show(msg, 'error');
+            });
     },
 
     stop() {

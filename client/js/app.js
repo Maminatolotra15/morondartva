@@ -35,6 +35,12 @@ const App = {
         const hash = window.location.hash || '#home';
         console.log(`Routing to: ${hash}`);
 
+        // Redirect scanner role to scanner page
+        if (Auth.user && Auth.user.role === 'scanner' && hash !== '#scanner') {
+            window.location.hash = '#scanner';
+            return;
+        }
+
         // Close any open drawers or modals to ensure clean state
         Shop.closeCartDrawer();
         Shop.closeCheckoutWizard();
