@@ -627,7 +627,8 @@ const Admin = {
                     <thead><tr><th>ID</th><th>Client</th><th>Total</th><th>Statut</th><th>Livraison</th><th>Actions</th></tr></thead>
                     <tbody>
                         ${this.adminOrders.map(o => {
-                            if (o.status === 'pending_validation') {
+                            const needsValidation = o.status === 'pending_validation' || (o.status === 'pending' && o.delivery_status === 'pending');
+                            if (needsValidation) {
                                 return `
                                 <tr class="border-warning">
                                     <td>#${o.id}</td>
@@ -643,8 +644,8 @@ const Admin = {
                                 </tr>`;
                             }
                             const curIdx = flow.indexOf(o.delivery_status);
-                            const statusLabel = o.status === 'validated' ? 'Validée' : (o.status === 'paid' ? 'Payée' : o.status);
-                            const statusBadge = o.status === 'validated' ? 'badge-success' : (o.status === 'paid' ? 'badge-success' : 'badge-warning');
+                            const statusLabel = o.status === 'validated' ? 'Validée' : 'Payée';
+                            const statusBadge = 'badge-success';
                             return `
                             <tr>
                                 <td>#${o.id}</td>

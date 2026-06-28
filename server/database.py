@@ -225,6 +225,8 @@ def initialize_database():
         cursor.execute("ALTER TABLE payments ADD COLUMN ticket_id INTEGER")
     except sqlite3.OperationalError:
         pass
+    # Migrate old orders: pending → pending_validation
+    cursor.execute("UPDATE orders SET status = 'pending_validation' WHERE status = 'pending'")
     conn.commit()
 
     # Seed categories

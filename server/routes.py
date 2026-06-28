@@ -849,7 +849,7 @@ def handle_validate_order(handler, order_id):
         order = conn.execute("SELECT status, delivery_status FROM orders WHERE id = ?", (order_id,)).fetchone()
         if not order:
             return send_error(handler, "Commande introuvable.", 404)
-        if order['status'] != 'pending_validation':
+        if order['status'] not in ('pending_validation', 'pending'):
             return send_error(handler, f"Statut invalide. Statut actuel: {order['status']}")
         conn.execute("UPDATE orders SET status = 'validated', delivery_status = 'pending' WHERE id = ?", (order_id,))
         conn.commit()
